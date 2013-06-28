@@ -4,13 +4,21 @@ using System.Linq;
 using System.Text;
 using SQLite;
 
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using SetUp = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestInitializeAttribute;
+using TestFixture = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestClassAttribute;
+using Test = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.TestMethodAttribute;
+#else
 using NUnit.Framework;
+#endif
+
 using System.IO;
 
 namespace SQLite.Tests
 {
 	[TestFixture]
-	class NullableTest
+	public class NullableTest
 	{
 		public class NullableIntClass
 		{
@@ -24,13 +32,18 @@ namespace SQLite.Tests
 				NullableIntClass other = (NullableIntClass)obj;
 				return this.ID == other.ID && this.NullableInt == other.NullableInt;
 			}
+			
+			public override int GetHashCode ()
+			{
+				return ID.GetHashCode () + NullableInt.GetHashCode ();
+			}
 		}
 
 		[Test]
 		[Description("Create a table with a nullable int column then insert and select against it")]
 		public void NullableInt()
 		{
-			SQLiteConnection db = new SQLiteConnection(Path.GetTempFileName());
+			SQLiteConnection db = new SQLiteConnection(TestPath.GetTempFileName());
 			db.CreateTable<NullableIntClass>();
 
 			NullableIntClass withNull = new NullableIntClass() { NullableInt = null };
@@ -66,13 +79,18 @@ namespace SQLite.Tests
 				NullableFloatClass other = (NullableFloatClass)obj;
 				return this.ID == other.ID && this.NullableFloat == other.NullableFloat;
 			}
+			
+			public override int GetHashCode ()
+			{
+				return ID.GetHashCode () + NullableFloat.GetHashCode ();
+			}
 		}
 
 		[Test]
 		[Description("Create a table with a nullable int column then insert and select against it")]
 		public void NullableFloat()
 		{
-			SQLiteConnection db = new SQLiteConnection(Path.GetTempFileName());
+			SQLiteConnection db = new SQLiteConnection(TestPath.GetTempFileName());
 			db.CreateTable<NullableFloatClass>();
 
 			NullableFloatClass withNull = new NullableFloatClass() { NullableFloat = null };
@@ -110,12 +128,17 @@ namespace SQLite.Tests
 				StringClass other = (StringClass)obj;
 				return this.ID == other.ID && this.StringData == other.StringData;
 			}
+			
+			public override int GetHashCode ()
+			{
+				return ID.GetHashCode () + StringData.GetHashCode ();
+			}
 		}
 
 		[Test]
 		public void NullableString()
 		{
-			SQLiteConnection db = new SQLiteConnection(Path.GetTempFileName());
+			SQLiteConnection db = new SQLiteConnection(TestPath.GetTempFileName());
 			db.CreateTable<StringClass>();
 
 			StringClass withNull = new StringClass() { StringData = null };
@@ -138,7 +161,7 @@ namespace SQLite.Tests
 		[Test]
 		public void WhereNotNull()
 		{
-			SQLiteConnection db = new SQLiteConnection(Path.GetTempFileName());
+			SQLiteConnection db = new SQLiteConnection(TestPath.GetTempFileName());
 			db.CreateTable<NullableIntClass>();
 
 			NullableIntClass withNull = new NullableIntClass() { NullableInt = null };
@@ -163,7 +186,7 @@ namespace SQLite.Tests
 		[Test]
 		public void WhereNull()
 		{
-			SQLiteConnection db = new SQLiteConnection(Path.GetTempFileName());
+			SQLiteConnection db = new SQLiteConnection(TestPath.GetTempFileName());
 			db.CreateTable<NullableIntClass>();
 
 			NullableIntClass withNull = new NullableIntClass() { NullableInt = null };
@@ -185,7 +208,7 @@ namespace SQLite.Tests
 		[Test]
 		public void StringWhereNull()
 		{
-			SQLiteConnection db = new SQLiteConnection(Path.GetTempFileName());
+			SQLiteConnection db = new SQLiteConnection(TestPath.GetTempFileName());
 			db.CreateTable<StringClass>();
 
 			StringClass withNull = new StringClass() { StringData = null };
@@ -204,7 +227,7 @@ namespace SQLite.Tests
 		[Test]
 		public void StringWhereNotNull()
 		{
-			SQLiteConnection db = new SQLiteConnection(Path.GetTempFileName());
+			SQLiteConnection db = new SQLiteConnection(TestPath.GetTempFileName());
 			db.CreateTable<StringClass>();
 
 			StringClass withNull = new StringClass() { StringData = null };
