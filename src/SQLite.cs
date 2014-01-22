@@ -1974,7 +1974,9 @@ namespace SQLite
                 var r = SQLite3.Step (stmt);
                 if (r == SQLite3.Result.Row) {
                     var colType = SQLite3.ColumnType (stmt, 0);
-                    val = (T)ReadCol (stmt, 0, colType, typeof(T));
+                    if (colType != SQLite3.ColType.Null) {
+                        val = (T)ReadCol (stmt, 0, colType, typeof(T));
+                    }
                 }
                 else if (r == SQLite3.Result.Done) {
                 }
