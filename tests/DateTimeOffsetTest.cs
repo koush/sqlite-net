@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace SQLite.Tests
 {
 	[TestFixture]
-	public class DateTimeTest
+	public class DateTimeOffsetTest
 	{
 		class TestObj
 		{
@@ -20,39 +20,26 @@ namespace SQLite.Tests
 			public int Id { get; set; }
 
 			public string Name { get; set; }
-			public DateTime ModifiedTime { get; set; }
+			public DateTimeOffset ModifiedTime { get; set; }
 		}
 
 
 		[Test]
 		public void AsTicks ()
 		{
-			var db = new TestDb (storeDateTimeAsTicks: true);
-			TestDateTime (db);
+			var db = new TestDb ();
+			TestDateTimeOffset (db);
 		}
 
-		[Test]
-		public void AsStrings ()
-		{
-			var db = new TestDb (storeDateTimeAsTicks: false);			
-			TestDateTime (db);
-		}
 
 		[Test]
 		public void AsyncAsTicks ()
 		{
-			var db = new SQLiteAsyncConnection (TestPath.GetTempFileName (), true);
-			TestAsyncDateTime (db);
+			var db = new SQLiteAsyncConnection (TestPath.GetTempFileName ());
+			TestAsyncDateTimeOffset (db);
 		}
 
-		[Test]
-		public void AsyncAsString ()
-		{
-			var db = new SQLiteAsyncConnection (TestPath.GetTempFileName (), false);
-			TestAsyncDateTime (db);
-		}
-
-		void TestAsyncDateTime (SQLiteAsyncConnection db)
+		void TestAsyncDateTimeOffset (SQLiteAsyncConnection db)
 		{
 			db.CreateTableAsync<TestObj> ().Wait ();
 
@@ -62,14 +49,14 @@ namespace SQLite.Tests
 			// Ticks
 			//
 			o = new TestObj {
-				ModifiedTime = new DateTime (2012, 1, 14, 3, 2, 1, 234),
+                ModifiedTime = new DateTimeOffset (2012, 1, 14, 3, 2, 1, TimeSpan.Zero),
 			};
 			db.InsertAsync (o).Wait ();
 			o2 = db.GetAsync<TestObj> (o.Id).Result;
 			Assert.AreEqual (o.ModifiedTime, o2.ModifiedTime);
 		}
 
-		void TestDateTime (TestDb db)
+		void TestDateTimeOffset (TestDb db)
 		{
 			db.CreateTable<TestObj> ();
 
@@ -79,12 +66,13 @@ namespace SQLite.Tests
 			// Ticks
 			//
 			o = new TestObj {
-				ModifiedTime = new DateTime (2012, 1, 14, 3, 2, 1, 234),
+				ModifiedTime = new DateTimeOffset (2012, 1, 14, 3, 2, 1, TimeSpan.Zero),
 			};
 			db.Insert (o);
 			o2 = db.Get<TestObj> (o.Id);
 			Assert.AreEqual (o.ModifiedTime, o2.ModifiedTime);
 		}
+
 	}
 }
 

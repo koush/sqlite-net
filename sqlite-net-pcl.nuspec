@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>1.2.0</version>
+    <authors>Frank A. Krueger</authors>
+    <owners>Frank A. Krueger</owners>
+    <licenseUrl>https://raw.githubusercontent.com/praeclarum/sqlite-net/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/praeclarum/sqlite-net</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/praeclarum/sqlite-net/master/nuget/Logo-low.png</iconUrl>
+    <id>sqlite-net-pcl</id>
+    <title>SQLite-net PCL</title>
+    <summary>The official portable class library version of sqlite-net: the easy way to access sqlite.</summary>
+    <licenseUrl>https://github.com/praeclarum/sqlite-net/blob/master/license.md</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>SQLite-net is an open source and light weight library providing easy SQLite database storage for .NET, Mono, and Xamarin applications. This version uses SQLitePCL.raw_basic to provide platform independent versions of SQLite.</description>
+    <tags>sqlite pcl database orm </tags>
+    <releaseNotes>
+    <![CDATA[
+    v1.2.0: Update .raw to bundle_green 1.0.1
+    ]]>
+    </releaseNotes>
+    <dependencies>
+      <dependency id="SQLitePCLRaw.bundle_green" version="1.0.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="nuget/SQLite-net/bin/Release/SQLite-net.dll" target="lib/portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+    <file src="nuget/SQLite-net/bin/Release/SQLite-net.dll.mdb" target="lib/portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+    <file src="nuget/SQLite-net/bin/Release/SQLite-net.xml" target="lib/portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+  </files>
+</package>
